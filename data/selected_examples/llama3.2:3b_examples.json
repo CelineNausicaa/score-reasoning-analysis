@@ -1,0 +1,23 @@
+{
+    "Negative": {
+        "unique_ID": [
+            "batch_3_058",
+            "tagless"
+        ],
+        "Example": "The feedback does not directly address the error in the highlighted span, as it mentions a language error but fails to identify the specific issue with the word 'place' being used in a context where a plural form is needed. The feedback also incorrectly suggests changing 'place' to its plural form 'places', which is not the correct correction for this sentence."
+    },
+    "Neutral": {
+        "unique_ID": [
+            "batch_3_057",
+            "EXPECT_tags"
+        ],
+        "Example": "The feedback is partially incorrect regarding the error, as 'increases' is a present participle form that can be used in some contexts. However, it does not fit perfectly with the present perfect tense usage described. The feedback also accurately describes a valid English language rule mentioned in the text and asserts a real rule without overgeneralizing."
+    },
+    "Positive": {
+        "unique_ID": [
+            "batch_3_188",
+            "template_system"
+        ],
+        "Example": "The input contains unnecessary content, but the actual output does not have out-of-scope content. The response effectively removes extraneous information from the input."
+    }
+}

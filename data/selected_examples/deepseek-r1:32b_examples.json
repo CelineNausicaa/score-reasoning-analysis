@@ -1,0 +1,23 @@
+{
+    "Negative": {
+        "unique_ID": [
+            "batch_3_057",
+            "EXPECT_tags"
+        ],
+        "Example": "The feedback correctly identifies the need for the present perfect tense but does not address the specific error within the highlighted span. The explanation is constructive, but it fails to reference the exact mistake in the input."
+    },
+    "Neutral": {
+        "unique_ID": [
+            "batch_3_188",
+            "template_system"
+        ],
+        "Example": "The feedback correctly identifies the grammar issue with 'for' and explains that a to-infinitive is needed. It provides a clear pattern (to + base verb) and explicitly changes 'for' to 'to'. However, it doesn't explain why the error occurred beyond suggesting the correction."
+    },
+    "Positive": {
+        "unique_ID": [
+            "batch_3_058",
+            "tagless"
+        ],
+        "Example": "The feedback correctly identifies the error in using a singular noun when referring to multiple locations. It accurately suggests changing 'place' to 'places.' The explanation is clear and adheres to English grammar rules."
+    }
+}

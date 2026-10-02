@@ -1,0 +1,23 @@
+{
+    "Negative": {
+        "unique_ID": [
+            "batch_3_058",
+            "tagless"
+        ],
+        "Example": "The response effectively identifies the singular form of 'place' and suggests the correct plural form 'places'. However, the explanation is slightly verbose and could be more concise for a B1/B2 learner. It doesn't fully address the clarity of explanation, as the connection between the error and the correction could be strengthened by explicitly stating why the original sentence was incorrect before offering the solution."
+    },
+    "Neutral": {
+        "unique_ID": [
+            "batch_3_057",
+            "EXPECT_tags"
+        ],
+        "Example": "The comment clearly identifies the tense error ('increases' should be 'has increased') and provides the rationale behind the correction (referring to an ongoing situation). However, it lacks specific details about *why* the present perfect is appropriate in this context, beyond stating it 'continues or has relevance to the present'. It could be more helpful by explaining how the sentence describes a situation that started before and continues to the present, referencing the input's description of pollution trends."
+    },
+    "Positive": {
+        "unique_ID": [
+            "batch_3_188",
+            "template_system"
+        ],
+        "Example": "The comment effectively identifies a grammatical error (using 'for' instead of 'to' in an infinitive phrase) and provides a clear, actionable suggestion for correction. It directly relates to the provided input and offers a natural alternative construction. The explanation is concise and well-targeted."
+    }
+}

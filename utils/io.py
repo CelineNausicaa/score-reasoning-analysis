@@ -39,3 +39,23 @@ def load_json(file_name, n = None, shuffle = False): #USED
         return subset_data
 
     return data
+
+def output_json(data, outdir, shuffling = False, seed = 42): #USED
+    '''
+    Outputs the data to a json file.
+    
+    Parameters
+    ----------
+    data: a list
+        a list of dictionaries
+    outdir: string
+        a string indicating the name of the output directory
+    '''
+
+    if shuffling:
+        rng = random.Random(seed)
+        rng.shuffle(data)
+    
+    print(f"Exporting to JSON.\nOutput directory: {outdir}")
+    with open(outdir, 'w') as f:
+        json.dump(data, f, indent=4)

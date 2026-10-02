@@ -1,0 +1,23 @@
+{
+    "Negative": {
+        "unique_ID": [
+            "batch_3_057",
+            "EXPECT_tags"
+        ],
+        "Example": "The feedback accurately describes an error in the input sentence, stating that 'increases' should be changed to 'has increased'. However, it does not verify if this is indeed an error or a valid rule of English. The feedback also mentions the present perfect tense, but it does not evaluate if the language rules mentioned are valid and correctly applied."
+    },
+    "Neutral": {
+        "unique_ID": [
+            "batch_3_188",
+            "template_system"
+        ],
+        "Example": "The feedback accurately describes the error in the source sentence, stating that 'for' should be changed to 'to'. The English language rule mentioned is also valid, as using a to-infinitive (to + base form of the verb) is a correct way to express purpose. However, the feedback does not verify if the statements like 'must' or 'usually' have the correct scope and do not overgeneralize a rule of English."
+    },
+    "Positive": {
+        "unique_ID": [
+            "batch_3_058",
+            "tagless"
+        ],
+        "Example": "The feedback comment addresses the error within the highlighted span, making an attempt to describe the correct form of 'place' as 'places'. It focuses on language errors without straying into content or praising the learner."
+    }
+}

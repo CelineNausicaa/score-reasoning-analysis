@@ -1,0 +1,23 @@
+{
+    "Negative": {
+        "unique_ID": [
+            "batch_3_057",
+            "EXPECT_tags"
+        ],
+        "Example": "The explanation is relatively concise and uses some specialized linguistic terminology ('present perfect tense'). However, it assumes a level of grammatical knowledge beyond a typical B1/B2 learner. The explanation of 'action that started in the past and continues or has relevance to the present' is dense and could be simplified. While technically correct, the explanation's complexity hinders overall comprehensibility."
+    },
+    "Neutral": {
+        "unique_ID": [
+            "batch_3_215",
+            "human"
+        ],
+        "Example": "The explanation correctly identifies the grammatical error (subject-verb agreement) and suggests a correction, which aligns with the task. However, the terminology ('third-person singular', 'verb form') is somewhat specialized and might be challenging for a B1/B2 learner. While the explanation is technically correct, it could be simplified to improve comprehensibility for the target audience."
+    },
+    "Positive": {
+        "unique_ID": [
+            "batch_3_058",
+            "tagless"
+        ],
+        "Example": "The Actual Output correctly identifies the highlighted span `<error_start>Place<error_end>` and accurately describes the error as a grammatical disagreement between the singular form and the intended plural reference. The feedback explains the need to change 'place' to 'places' to reflect the multiple locations being discussed, directly addressing the error within the highlighted span."
+    }
+}

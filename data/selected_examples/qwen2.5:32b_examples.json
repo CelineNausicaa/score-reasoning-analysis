@@ -1,0 +1,23 @@
+{
+    "Negative": {
+        "unique_ID": [
+            "batch_3_058",
+            "tagless"
+        ],
+        "Example": "The feedback correctly identifies the grammatical issue with 'place' needing to be plural but fails to provide a pattern or explanation for forming the correct construction beyond suggesting a direct replacement. It also does not address any unnatural word combinations."
+    },
+    "Neutral": {
+        "unique_ID": [
+            "batch_3_057",
+            "EXPECT_tags"
+        ],
+        "Example": "The feedback correctly identifies that the present perfect tense should be used instead of the simple present, explaining why 'has increased' is more appropriate. However, it does not mention any specific grammar point attempted unsuccessfully nor does it establish that certain word combinations are unnatural or offer natural alternatives."
+    },
+    "Positive": {
+        "unique_ID": [
+            "batch_3_188",
+            "template_system"
+        ],
+        "Example": "The feedback directly addresses the error within the highlighted span by suggesting a change from 'for' to 'to', aligning well with the evaluation steps. It provides context on how to-infinitives are used for purposes, which is relevant and not distracting."
+    }
+}

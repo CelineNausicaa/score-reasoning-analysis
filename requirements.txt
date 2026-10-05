@@ -1,3 +1,4 @@
 ollama
 pydantic
 tqdm
+scikit-learn

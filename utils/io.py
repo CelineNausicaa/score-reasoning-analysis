@@ -2,8 +2,8 @@ from pathlib import Path
 import json
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "data" 
-RESULTS_DIR = PROJECT_ROOT / "results"
+# DATA_DIR = PROJECT_ROOT / "data" 
+# RESULTS_DIR = PROJECT_ROOT / "results"
 
 from .utils import shuffle_data
 
@@ -59,3 +59,32 @@ def output_json(data, outdir, shuffling = False, seed = 42): #USED
     print(f"Exporting to JSON.\nOutput directory: {outdir}")
     with open(outdir, 'w') as f:
         json.dump(data, f, indent=4)
+
+def append_jsonl(entry, outdir):
+    '''
+    Write to a JSONL file little by little, rather than getting everything all at once.
+    '''
+    with open(outdir, "a", encoding="utf-8") as f:
+        json.dump(entry, f, ensure_ascii=False)
+        f.write("\n")
+
+def load_jsonl(file_name):
+    '''
+    Load a JSONL file.
+    Takes a subset n for each of the file, so that a balanced sample is loaded.
+    
+    Parameters
+    ----------
+    file_name: string
+        path to the jsonl file
+    ´
+    Returns
+    -------
+    data: file object
+        the loaded jsonl file
+    '''
+
+    with open(file_name, "r") as file:
+        data = [json.loads(line) for line in file if line.strip()]
+
+    return data

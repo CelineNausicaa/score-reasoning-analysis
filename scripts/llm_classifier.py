@@ -5,7 +5,7 @@ python3 scripts/llm_classifier.py
 
 EXAMPLE USAGE
 -------------
-python3 scripts/llm_classifier.py --examples_dataset data/selected_examples/gemma3:4b_examples.json --test_dataset data/test_datasets/gemma3:4b_12samples_verbose_annotationround2_swappingFalse.json
+python3 scripts/llm_classifier.py --examples_dataset data/selected_examples/gemma3:12b_examples.json --test_dataset data/test_datasets/gemma3:12b_12samples_verbose_annotationround2_swappingFalse.json
 """
 
 import sys
@@ -40,19 +40,21 @@ def build_prompt(text, examples):
 
     #text = "The feedback was clear and very helpful. It has some unclarities, but overall it is good."
 
-    one_shot_examples = [f"\nText: {neutral} Sentiment: Neutral",
-                f"\nText: {negative} Sentiment: Negative",
-                f"\nText: {positive} Sentiment: Positive"]
+    one_shot_examples = [f"\n A neutral text contains a mix of positive and negative elements.\nText: {neutral} Sentiment: Neutral",
+                f"\nA negative text contains mostly or only negative elements. \nText: {negative} Sentiment: Negative",
+                f"\nA positive text contains mostly or only positive elements. \nText: {positive} Sentiment: Positive"]
 
 
     random.shuffle(one_shot_examples)
 
-    prompt = f"""Classify the sentiment of the text as:
+    prompt = f"""
+                You are a sentiment analysis classifier.
+                Assign each text one of the following sentiment:
                 Positive, Negative or Neutral.
 
                 Return only the label. Do not explain your reasoning.
 
-                Here are annotated examples to guide you:
+                Here are definitions and annotated examples to guide you:
 
                 {"".join(one_shot_examples)}
 
@@ -129,7 +131,6 @@ def main():
     
     ### Query LLM ###
     sentiments = apply_query(processed_test_dataset, examples, outdir)
-    print(sentiments)
 
     #processed_sentiments = [json.loads(s) for s in sentiments]
 

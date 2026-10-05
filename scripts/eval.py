@@ -1,8 +1,7 @@
 """
 USAGE
 -----
-python3 scripts/eval.py --test_dataset relative/path.json --llm_predictions relative/path.json
-
+python3 scripts/eval.py --test_dataset data/test_datasets/gemma3:12b_12samples_verbose_annotationround2_swappingFalse.json --llm_predictions results/classification/gemma3:12b_12samples_verbose_annotationround2_swappingFalse.json
 EXAMPLE USAGE
 -------------
 python3 scripts/eval.py --test_dataset data/test_datasets/gemma3:4b_12samples_verbose_annotationround2_swappingFalse.json --llm_predictions results/classification/gemma3:4b_12samples_verbose_annotationround2_swappingFalse.json

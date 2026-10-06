@@ -107,8 +107,8 @@ def plot_results(df, name):
     plt.ylim(top=1.05)
     plt.ylim(bottom=-0.09)
     ax.set_xlabel(None)
-    ax.set_ylabel('Score', fontsize = 12)
-    plt.savefig("plots/" + name + "_pastel.svg", dpi=300, bbox_inches="tight")
+    ax.set_ylabel(None)
+    plt.savefig("plots/" + name + ".svg", dpi=300, bbox_inches="tight")
     plt.clf()
 
 def main():

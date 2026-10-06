@@ -43,8 +43,6 @@ magistral:24b - gemma3:12b
    macro avg       0.70      0.97      0.72       105
 weighted avg       0.99      0.92      0.95       105
 
-
-
 magistral:24b - qwen2.5:32b
               precision    recall  f1-score   support
 

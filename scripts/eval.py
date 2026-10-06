@@ -2,9 +2,10 @@
 USAGE
 -----
 python3 scripts/eval.py --test_dataset data/test_datasets/gemma3:12b_12samples_verbose_annotationround2_swappingFalse.json --llm_predictions results/classification/gemma3:12b_12samples_verbose_annotationround2_swappingFalse.json
+
 EXAMPLE USAGE
 -------------
-python3 scripts/eval.py --test_dataset data/test_datasets/gemma3:4b_12samples_verbose_annotationround2_swappingFalse.json --llm_predictions results/classification/gemma3:4b_12samples_verbose_annotationround2_swappingFalse.json
+python3 scripts/eval.py --test_dataset data/test_datasets/gemma3:12b_12samples_verbose_annotationround2_swappingFalse.json --llm_predictions results/classification/deepseek-v2:16b_gemma3:12b_12samples_verbose_annotationround2_swappingFalse.json
 """
 
 import sys
@@ -32,6 +33,10 @@ def process_llm_predictions(loaded_predictions):
         y_pred.append(dct["sentiment"])
     return y_pred
 
+def append_file(classifier_name, llm_name, report):
+    with open("evaluation_report.txt", "a") as text_file:
+        text_file.write("\n" + classifier_name  + " - " + llm_name + "\n" + report)
+
 def main():
 
     parser = argparse.ArgumentParser(
@@ -55,17 +60,26 @@ def main():
     test_dataset = args.test_dataset
     llm_predictions = args.llm_predictions 
 
-    file_name = test_dataset.split("/")[-1]
+    llm_name = test_dataset.split("_")[1].split("/")[-1]
+    llm_predictions_name = llm_predictions.split("_")[1]
 
-    loaded_test_dataset = load_json(test_dataset)
-    loaded_predictions = load_jsonl(llm_predictions)
-
-    y_true = process_test_dataset(loaded_test_dataset)
-    y_pred = process_llm_predictions(loaded_predictions)
-
-    print(classification_report(y_true, y_pred))
-
+    if llm_name != llm_predictions_name:
+        print("ERROR. The wrong test dataset has been chosen.")
     
+    else:
+        classifier_name = llm_predictions.split("_")[0].split("/")[-1]
+
+        file_name = test_dataset.split("/")[-1]
+
+        loaded_test_dataset = load_json(test_dataset)
+        loaded_predictions = load_jsonl(llm_predictions)
+
+        y_true = process_test_dataset(loaded_test_dataset)
+        y_pred = process_llm_predictions(loaded_predictions)
+
+        report = classification_report(y_true, y_pred)
+
+        append_file(classifier_name, llm_name, report)
     
 
 if __name__ == "__main__":

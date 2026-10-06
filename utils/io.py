@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+from json import JSONDecodeError
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 # DATA_DIR = PROJECT_ROOT / "data" 
@@ -87,4 +88,11 @@ def load_jsonl(file_name):
     with open(file_name, "r") as file:
         data = [json.loads(line) for line in file if line.strip()]
 
+    return data
+
+def is_json_or_jsonl(file):
+    try:
+        data = load_json(file)
+    except JSONDecodeError as e:
+        data = load_jsonl(file)
     return data

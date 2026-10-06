@@ -1,0 +1,68 @@
+
+deepseek-v2:16b - llama3.1:12b
+              precision    recall  f1-score   support
+
+    Negative       0.48      0.96      0.64        24
+     Neutral       1.00      0.26      0.42        42
+    Positive       0.78      0.92      0.85        39
+
+    accuracy                           0.67       105
+   macro avg       0.75      0.71      0.63       105
+weighted avg       0.80      0.67      0.63       105
+
+deepseek-v2:16b - gemma3:12b
+              precision    recall  f1-score   support
+
+    Negative       0.40      1.00      0.57         2
+     Neutral       0.00      0.00      0.00         1
+    Positive       0.99      0.97      0.98       102
+
+    accuracy                           0.96       105
+   macro avg       0.46      0.66      0.52       105
+weighted avg       0.97      0.96      0.96       105
+
+deepseek-v2:16b - qwen2.5:32b
+              precision    recall  f1-score   support
+
+    Negative       0.76      1.00      0.86        16
+     Neutral       0.67      0.15      0.25        13
+    Positive       0.90      0.96      0.93        76
+
+    accuracy                           0.87       105
+   macro avg       0.78      0.70      0.68       105
+weighted avg       0.85      0.87      0.84       105
+
+magistral:24b - gemma3:12b
+              precision    recall  f1-score   support
+
+    Negative       1.00      1.00      1.00         2
+     Neutral       0.11      1.00      0.20         1
+    Positive       1.00      0.92      0.96       102
+
+    accuracy                           0.92       105
+   macro avg       0.70      0.97      0.72       105
+weighted avg       0.99      0.92      0.95       105
+
+
+
+magistral:24b - qwen2.5:32b
+              precision    recall  f1-score   support
+
+    Negative       1.00      0.88      0.93        16
+     Neutral       0.52      1.00      0.68        13
+    Positive       1.00      0.87      0.93        76
+
+    accuracy                           0.89       105
+   macro avg       0.84      0.91      0.85       105
+weighted avg       0.94      0.89      0.90       105
+
+magistral:24b - llama3.1:12b
+              precision    recall  f1-score   support
+
+    Negative       0.80      0.67      0.73        24
+     Neutral       0.61      0.90      0.73        42
+    Positive       1.00      0.59      0.74        39
+
+    accuracy                           0.73       105
+   macro avg       0.80      0.72      0.73       105
+weighted avg       0.80      0.73      0.73       105

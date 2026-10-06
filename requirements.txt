@@ -2,3 +2,6 @@ ollama
 pydantic
 tqdm
 scikit-learn
+pandas
+matplotlib
+seaborn

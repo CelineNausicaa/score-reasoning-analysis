@@ -41,6 +41,59 @@ def check_sentiment_errors(sentiments):
         if sentiment not in valid_sentiment:
             raise ValueError("Invalid sentiment: ", sentiment, i)
 
+def align_predictions_and_scores(predicted_sentiments, scores):
+    """
+    Align the predicted sentiment with the corresponding score
+    """
+
+    sent_to_scores = {}
+
+    for sent, score in zip(predicted_sentiments, scores):
+            if sent not in sent_to_scores:
+                sent_to_scores[sent] = [score]
+            else: 
+                sent_to_scores[sent].append(score)
+
+    return sent_to_scores
+
+def create_plot_df(llm_to_scores, sent:str):
+    '''
+    Create an appropraite dataframe for the violin plots.
+    Takes a dictionry (llm_to_scores) as well as a sentiment
+    Either "Positive", "Negative", "Neutral"
+    '''
+
+    llm_to_sent = {}
+
+    for k, v in llm_to_scores.items():
+        if len(v[sent]) > 1:
+            llm_to_sent[k]= v[sent]
+    print(llm_to_sent)
+    df_dct = {}
+    df_dct["LLM"] = [k for k,v in llm_to_sent.items() for value in v]
+    df_dct["Scores"] = [v for value_list in llm_to_sent.values() for v in value_list]
+    df = pd.DataFrame(df_dct)
+    
+
+    return df
+
+def plot_results(df, name):
+    #print(df)
+    f = plt.figure()
+    f.set_figwidth(3)
+    f.set_figheight(3)
+    ax = sns.violinplot(data=df, x = "LLM", y = "Scores", bw_adjust=.5, cut=1, linewidth=1, palette="Set3")
+    #ax.set_xticks(["deep.", "qwen", "llama-3", "llama-12", "gem-3", "gem-12"])
+    #ax.set_xticklabels(["deep.", "qwen", "llama-3", "llama-8", "gem-4", "gem-12"])
+    plt.xticks(rotation=50, rotation_mode = "xtick", fontsize = 12)
+    plt.yticks(fontsize = 12)
+    plt.ylim(top=1.05)
+    plt.ylim(bottom=-0.09)
+    ax.set_xlabel(None)
+    ax.set_ylabel('Score', fontsize = 12)
+    plt.savefig("plots/" + name + ".svg", dpi=300, bbox_inches="tight")
+    plt.clf()
+
 def main():
 
     parser = argparse.ArgumentParser(
@@ -49,13 +102,13 @@ def main():
 
     parser.add_argument(
         "--llm_predictions",
-        required=True,
+        required=False,
         help="The json file containing the llm predictions"
     )     
 
     parser.add_argument(
         "--full_dataset",
-        required=True,
+        required=False,
         help="The json file containing the data to annotate"
     )    
 
@@ -72,34 +125,56 @@ def main():
     full_dataset = args.full_dataset  
     n = args.n
 
-    print("LLM predictions:", llm_predictions)
-    print("Full dataset:", full_dataset)
+    llm_predictions = [
+        "results/classification/magistral:24b_llama3.1:latest_Nonesamples_verbose_full1_swappingFalse.json",
+        "results/classification/magistral:24b_qwen2.5:32b_Nonesamples_verbose_full1_swappingFalse.json",
+        "results/classification/magistral:24b_gemma3:12b_Nonesamples_verbose_full1_swappingFalse.json"
+    ]
 
-    ###Ensuring the right datasets are being compared###
+    full_datasets = [
+        "data/full_datasets/llama3.1:latest_Nonesamples_verbose_full1_swappingFalse.json",
+        "data/full_datasets/qwen2.5:32b_Nonesamples_verbose_full1_swappingFalse.json",
+        "data/full_datasets/gemma3:12b_Nonesamples_verbose_full1_swappingFalse.json"
+    ]
 
-    llm_name = full_dataset.split("_")[1].split("/")[-1]
-    llm_predictions_name = llm_predictions.split("_")[1]
+    llm_to_scores = {}
 
-    if llm_name != llm_predictions_name:
-        print("ERROR. The wrong test dataset has been chosen.")
+    for full_dataset, llm_prediction in zip(full_datasets, llm_predictions):
 
-    ### Loading the data ###
-    loaded_llm_predictions = is_json_or_jsonl(llm_predictions)
-    loaded_full_dataset = is_json_or_jsonl(full_dataset)
+        ###Ensuring the right datasets are being compared###
 
-    ###Extracting the sentiments from the scores and the predicted sentiments###
-    sentiments_from_scores, scores = separate_sentiments(loaded_full_dataset, n)
-    predicted_sentiments = [entry["sentiment"] for entry in loaded_llm_predictions]
+        llm_name = full_dataset.split("_")[1].split("/")[-1]
+        llm_predictions_name = llm_prediction.split("_")[1]
 
-    ### Ensuginr everything works as intended: lengths match, and there is not errors in the sentiments###
-    if len(sentiments_from_scores) != len(scores):
-        raise ValueError(f"The length of sentiments ({len(sentiments_from_scores)}) does not match the length of scores ({len(scores)})")
-    elif len(sentiments_from_scores) != len(predicted_sentiments):
-        raise ValueError(f"The length of sentiments ({len(sentiments_from_scores)}) does not match the length of the predictions ({len(predicted_sentiments)})")
+        if llm_name != llm_predictions_name:
+            print("ERROR. The wrong test dataset has been chosen.")
+
+        ### Loading the data ###
+        loaded_llm_prediction = is_json_or_jsonl(llm_prediction)
+        loaded_full_dataset = is_json_or_jsonl(full_dataset)
+
+        ###Extracting the sentiments from the scores and the predicted sentiments###
+        sentiments_from_scores, scores = separate_sentiments(loaded_full_dataset, n)
+        predicted_sentiments = [entry["sentiment"] for entry in loaded_llm_prediction]
+
+        ### Ensuginr everything works as intended: lengths match, and there is not errors in the sentiments###
+        if len(sentiments_from_scores) != len(scores):
+            raise ValueError(f"The length of sentiments ({len(sentiments_from_scores)}) does not match the length of scores ({len(scores)})")
+        elif len(scores) != len(predicted_sentiments):
+            raise ValueError(f"The length of scores ({len(scores)}) does not match the length of the predictions ({len(predicted_sentiments)})")
+        
+        check_sentiment_errors(sentiments_from_scores)
+        check_sentiment_errors(predicted_sentiments)
+            
+        sent_to_scores = align_predictions_and_scores(predicted_sentiments, scores)
+        llm_to_scores[llm_name] = sent_to_scores    
     
-    check_sentiment_errors(sentiments_from_scores)
-    check_sentiment_errors(predicted_sentiments)
-    
+    sent = ["Positive", "Neutral", "Negative"]
+
+    for s in sent:
+        df = create_plot_df(llm_to_scores, s)
+        plot_results(df, s)
+       
         
 
     

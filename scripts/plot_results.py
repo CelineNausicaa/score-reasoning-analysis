@@ -2,6 +2,10 @@ import sys
 import os
 import argparse
 
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
@@ -60,38 +64,51 @@ def create_plot_df(llm_to_scores, sent:str):
     '''
     Create an appropraite dataframe for the violin plots.
     Takes a dictionry (llm_to_scores) as well as a sentiment
-    Either "Positive", "Negative", "Neutral"
+    Either "Positive", "Negative", "Neutral".
+
+    First, creates a plot_df dictionary, which has the following structure:
+    Positive dictionary =
+    {llm_name_1: [1, 0.9, 1],
+    llm_name_2: [1, 0.8, 0.8]}
+
+    It creates one dictionary like this given a sent.
+
+    Returns
+    -------
+    df: dataframe
+        a dataframe containins two columns: the llm name and the corresponding scores
     '''
 
-    llm_to_sent = {}
+    plot_df = {}
 
     for k, v in llm_to_scores.items():
         if len(v[sent]) > 1:
-            llm_to_sent[k]= v[sent]
-    print(llm_to_sent)
-    df_dct = {}
-    df_dct["LLM"] = [k for k,v in llm_to_sent.items() for value in v]
-    df_dct["Scores"] = [v for value_list in llm_to_sent.values() for v in value_list]
-    df = pd.DataFrame(df_dct)
+            plot_df[k]= v[sent]
     
+    df_dct = {}
+    df_dct["LLM"] = [k for k,v in plot_df.items() for value in v] #makes a column contianing the LLM name
+    df_dct["Scores"] = [v for value_list in plot_df.values() for v in value_list] #flatten the list of values
+    df = pd.DataFrame(df_dct)
 
     return df
 
 def plot_results(df, name):
     #print(df)
+    #sns.set_theme(font = "sans-serif", style = "ticks", palette="pastel")
     f = plt.figure()
     f.set_figwidth(3)
     f.set_figheight(3)
-    ax = sns.violinplot(data=df, x = "LLM", y = "Scores", bw_adjust=.5, cut=1, linewidth=1, palette="Set3")
-    #ax.set_xticks(["deep.", "qwen", "llama-3", "llama-12", "gem-3", "gem-12"])
-    #ax.set_xticklabels(["deep.", "qwen", "llama-3", "llama-8", "gem-4", "gem-12"])
-    plt.xticks(rotation=50, rotation_mode = "xtick", fontsize = 12)
+    sns.set_palette(["#F7C9AF", "#C7ECBA", "#E9ADE2"])
+    ax = sns.violinplot(data=df, x = "LLM", y = "Scores", bw_adjust=.5, cut=1, linewidth=1, hue = "LLM")
+    #ax.set_xticks(["Llama", "Qwen", "Gemma"])
+    ax.set_xticklabels(["Llama", "Qwen", "Gemma"])
+    plt.xticks(rotation=0, rotation_mode = "default", fontsize = 12)
     plt.yticks(fontsize = 12)
     plt.ylim(top=1.05)
     plt.ylim(bottom=-0.09)
     ax.set_xlabel(None)
     ax.set_ylabel('Score', fontsize = 12)
-    plt.savefig("plots/" + name + ".svg", dpi=300, bbox_inches="tight")
+    plt.savefig("plots/" + name + "_pastel.svg", dpi=300, bbox_inches="tight")
     plt.clf()
 
 def main():
@@ -175,8 +192,6 @@ def main():
         df = create_plot_df(llm_to_scores, s)
         plot_results(df, s)
        
-        
-
     
 if __name__ == "__main__":
     main()
